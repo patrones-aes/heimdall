@@ -1,4 +1,4 @@
-from core.database.connection import DatabaseConnection
+from shared.core.database.connection import DatabaseConnection
 
 class BaseService:
     """

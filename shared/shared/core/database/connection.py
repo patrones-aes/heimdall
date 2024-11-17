@@ -1,14 +1,17 @@
-from typing import Dict, Any
+from typing import Dict, Any, Type
 
 import boto3
+from botocore.exceptions import ClientError
+from shared.config.settings import settings
+from shared.core.base_model import BaseModel
 
-from config.settings import settings
 
 class DatabaseConnection:
     """
     Database connection
     """
-    def __init__(self, table_name: str):
+    def __init__(self, model: Type[BaseModel]):
+        self.model = model
         self.connection = boto3.resource(
             'dynamodb',
             endpoint_url=settings.DYNAMODB_HOST,
@@ -16,7 +19,39 @@ class DatabaseConnection:
             aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
             region_name=settings.AWS_DEFAULT_REGION,
         )
-        self.table = self.connection.Table(table_name)
+        self.table = self.connection.Table(model.table_name)
+        self._ensure_table()
+
+    def _create_table(self):
+        """
+        Create the table using metadata from the model.
+        """
+        metadata = self.model.get_table_metadata()
+        try:
+            self.table = self.connection.create_table(**metadata)
+            print(f"Waiting for table '{self.model.table_name}' to be created...")
+            self.table.wait_until_exists()
+            print(f"Table '{self.model.table_name}' created successfully.")
+        except ClientError as e:
+            print(f"Failed to create table '{self.model.table_name}': {e.response['Error']['Message']}")
+            raise
+
+    def _ensure_table(self):
+        """
+        Ensure the table exists; create it if it doesn't.
+        """
+        try:
+            self.table.load()  # Check if the table exists
+            print(f"Table '{self.model.table_name}' already exists.")
+        except ClientError as e:
+            if e.response['Error']['Code'] == 'ResourceNotFoundException':
+                print(f"Table '{self.model.table_name}' does not exist. Creating it...")
+                self._create_table()
+            else:
+                raise
+
+    def __call__(self):
+        return self
 
     def scan_table(self) -> Dict[str, Any]:
         """
