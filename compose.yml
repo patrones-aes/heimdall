@@ -29,7 +29,7 @@ services:
     container_name: squads-service
     image: archi/squads-service:latest
     build: 
-      dockerfile: squad/Containerfile
+      dockerfile: packages/squad/Containerfile
       context: .
     ports:
       - '${SQUAD_APP_PORT}:${SQUAD_APP_PORT}'
