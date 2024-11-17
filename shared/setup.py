@@ -23,5 +23,11 @@ setup(
     ),
     install_requires=[
         'boto3==1.35.63'
+    ],
+    classifiers=[
+        'Development Status :: 1 - Planning',
+        'Programming Language :: Python :: 3.13',
+        'Intended Audience :: Developers',
+        'Operating System :: Unix'
     ]
 )
