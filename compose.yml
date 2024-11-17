@@ -1,0 +1,47 @@
+volumes:
+  dynamodb-data:
+
+networks:
+  heimdall-network:
+
+services:
+  # ---
+  # Shared
+  # ---
+  dynamodb:
+    container_name: dynamodb
+    image: "amazon/dynamodb-local:latest"
+    volumes:
+      - "dynamodb-data:/home/dynamodblocal/data"
+    networks:
+      - heimdall-network
+  redis-queue:
+    image: redis:7.2.6-alpine3.20
+    container_name: redis-queue
+    ports:
+      - '6379:6379'
+    networks:
+      - heimdall-network
+  # ---
+  # Squads
+  # ---
+  squads-service:
+    container_name: squads-service
+    image: archi/squads-service:latest
+    build: 
+      dockerfile: squad/Containerfile
+      context: .
+    ports:
+      - '${SQUAD_APP_PORT}:${SQUAD_APP_PORT}'
+    environment:
+      DATABASE_HOST: ${SQUAD_DATABASE_HOST}
+      DATABASE_PORT: ${SQUAD_DATABASE_PORT}
+      AWS_ACCESS_KEY_ID: ${SQUAD_DATABASE_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${SQUAD_DATABASE_SECRET_ACCESS_KEY}
+      AWS_DEFAULT_REGION: ${SQUAD_DATABASE_DEFAULT_REGION}
+      APP_HOST: ${SQUAD_APP_HOST}
+      APP_PORT: ${SQUAD_APP_PORT}
+    depends_on:
+      - dynamodb
+    networks:
+      - heimdall-network

@@ -1,0 +1,19 @@
+ARG PYTHON_VERSION=3.12-alpine3.20
+FROM python:${PYTHON_VERSION}
+
+WORKDIR /usr/squads
+
+# Install dependencies
+COPY squad/requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Get source code
+COPY squad/src/ ./src
+COPY squad/scripts/ ./scripts
+
+# Update permissions
+RUN chmod -R +x ./scripts
+
+EXPOSE ${APP_PORT}
+
+CMD [ "./scripts/start.sh" ]
