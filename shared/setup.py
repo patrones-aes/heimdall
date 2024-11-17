@@ -14,6 +14,9 @@ setup(
     long_description=readme,
     author='Heimdall',
     packages=find_packages(
+        include=[
+            'shared'
+        ],
         exclude=[
             'test',
         ]
