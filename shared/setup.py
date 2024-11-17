@@ -9,14 +9,15 @@ setup(
     description='Shared library for Heimdall services',
     long_description=readme,
     author='Heimdall',
-    url='http://10.43.102.250:3000/Heimdall/shared',
+    url='http://10.43.102.250:3000/heimdall/shared',
     packages=find_packages(
-        include=(
-            'shared'
-        ),
-        exclude=(
+        include=[
+            'shared',
+            'shared.*'
+        ],
+        exclude=[
             'test',
             '.venv'
-        )
+        ]
     )
 )
