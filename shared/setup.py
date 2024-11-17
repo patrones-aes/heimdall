@@ -5,7 +5,7 @@ with open('README.md', 'r',encoding='UTF-8') as f:
 
 setup(
     name='shared',
-    version='0.1.0',
+    version='0.0.1',
     description='Shared library for Heimdall services',
     long_description=readme,
     author='Heimdall',
