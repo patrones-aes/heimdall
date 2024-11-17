@@ -7,7 +7,7 @@ README_PATH = os.path.join(os.getcwd(), 'README.md')
 with open(README_PATH, 'r',encoding='UTF-8') as f:
     readme = f.read()
 
-VERSION = '0.0.1'
+VERSION = '0.0.2'
 
 setup(
     name='shared',
