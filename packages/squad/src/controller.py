@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Body
 from fastapi_router_controller import Controller
+from shared.core.database.connection import DatabaseConnection
 
 from src.service import SquadService
 
@@ -8,12 +9,11 @@ controller = Controller(router)
 
 @controller.resource()
 class SquadController:
-    def __init__(self):
-        self.service = SquadService()
+    def __init__(self, database: DatabaseConnection):
+        self.service = SquadService(database)
 
     @controller.route.get('/')
     async def get_all_squads(self):
-        print("test 2")
         return self.service.get_all_squads()
 
     @controller.route.post('/')

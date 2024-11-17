@@ -1,8 +1,12 @@
 from src.repository import SquadRepository
 
-class SquadService():
-    def __init__(self):
-        self.repository = SquadRepository()
+from shared.core.base_service import BaseService
+from shared.core.database.connection import DatabaseConnection
+
+
+class SquadService(BaseService):
+    def __init__(self, database: DatabaseConnection):
+        self.repository = SquadRepository(database)
 
     def get_all_squads(self):
         # Edit if you have to add logic
