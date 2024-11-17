@@ -17,5 +17,8 @@ setup(
         exclude=[
             'test',
         ]
-    )
+    ),
+    install_requires=[
+        'boto3==1.35.63'
+    ]
 )
