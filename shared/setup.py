@@ -15,7 +15,7 @@ setup(
     author='Heimdall',
     packages=find_packages(
         include=[
-            'shared'
+            '.'
         ],
         exclude=[
             'test',
