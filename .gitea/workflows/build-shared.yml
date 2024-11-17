@@ -1,0 +1,29 @@
+name: Build Shared Library
+
+on:
+  push:
+    branches:
+      - 'develop'
+    paths:
+      - 'shared/**'
+  pull_request:
+    branches:
+      - 'develop'
+    paths:
+      - 'shared/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+
+      - name: Test Python
+        run: python --version
