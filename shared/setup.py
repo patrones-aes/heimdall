@@ -1,6 +1,10 @@
+import os
+
 from setuptools import setup, find_packages
 
-with open('README.md', 'r',encoding='UTF-8') as f:
+README_PATH = os.path.join(os.getcwd(), 'README.md')
+
+with open(README_PATH, 'r',encoding='UTF-8') as f:
     readme = f.read()
 
 setup(
@@ -9,15 +13,9 @@ setup(
     description='Shared library for Heimdall services',
     long_description=readme,
     author='Heimdall',
-    url='http://10.43.102.250:3000/heimdall/shared',
     packages=find_packages(
-        include=[
-            'shared',
-            'shared.*'
-        ],
         exclude=[
             'test',
-            '.venv'
         ]
     )
 )
