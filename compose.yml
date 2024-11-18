@@ -23,7 +23,7 @@ services:
     container_name: api-gateway
     image: kong/kong-gateway:2.8-alpine
     volumes:
-      - 'infra/kong/:/kong/declarative'
+      - './infra/kong/:/kong/declarative'
     ports:
       - '8000:8000'
       - '8002:8002'
