@@ -34,6 +34,7 @@ services:
       KONG_ADMIN_ERROR_LOG: /dev/stderr
       KONG_ADMIN_LISTEN: 0.0.0.0:8001
       KONG_ADMIN_GUI_URL: http://localhost:8002
+      SQUAD_APP_PORT: ${SQUAD_APP_PORT}
     networks:
       - heimdall-network
 
