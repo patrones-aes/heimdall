@@ -26,5 +26,6 @@ dependencies = [
 packages = [
     "modi",
     "modi.core",
+    "modi.core.database",
     "modi.config"
 ]
