@@ -15,7 +15,7 @@ setup(
     long_description=readme,
     long_description_content_type='text/markdown',
     author='Heimdall',
-    packages=find_packages(include=['modi', 'modi.*']),
+    packages=find_packages(),
     install_requires=[
         'boto3>=1.35.63',
         'pydantic_settings>=2.2.1'
