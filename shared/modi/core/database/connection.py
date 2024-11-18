@@ -14,7 +14,7 @@ class DatabaseConnection:
         self.model = model
         self.connection = boto3.resource(
             'dynamodb',
-            endpoint_url=settings.DYNAMODB_HOST,
+            endpoint_url=settings.DYNAMODB_URL,
             aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
             aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
             region_name=settings.AWS_DEFAULT_REGION,
