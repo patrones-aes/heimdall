@@ -3,9 +3,7 @@ _transform: true
 
 services:
   - name: squads
-    host: squads-service
-    port: 8080
-    protocol: http
+    url: http://squads-service:8080/squads
     routes:
       - name: get_all_squads
         paths:
