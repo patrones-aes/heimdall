@@ -21,7 +21,7 @@ services:
     container_name: api-gateway
     image: kong:3.8-ubuntu
     volumes:
-      - './infra/kong/:/kong/declarative'
+      - './infra/kong:/opt/kong'
     ports:
       - '8000:8000'
       - '8443:8443'
@@ -29,16 +29,20 @@ services:
       - '8444:8444'
     environment:
       KONG_DATABASE: off
-      KONG_DECLARATIVE_CONFIG: /kong/declarative/kong.yml
+      KONG_DECLARATIVE_CONFIG: /opt/kong/kong.yml
       KONG_PROXY_ACCESS_LOG: /dev/stdout
       KONG_ADMIN_PROXY_ACCESS_LOG: /dev/stdout
       KONG_PROXY_ERROR_LOG: /dev/stderr
       KONG_ADMIN_ERROR_LOG: /dev/stderr
       KONG_ADMIN_LISTEN: 0.0.0.0:8001,0.0.0.0:8445
-      KONG_ADMIN_GUI_URL: http://localhost:8002
     command: kong start
     networks:
       - heimdall-network
+    healthcheck:
+      test: [ "CMD", "kong", "health" ]
+      interval: 10s
+      timeout: 10s
+      retries: 10
 
   # ---
   # Squads
