@@ -19,7 +19,7 @@ services:
       - heimdall-network
   api-gateway:
     container_name: api-gateway
-    image: kong/kong-gateway:2.8-alpine
+    image: kong/kong-gateway:3.4-debian
     volumes:
       - './infra/kong/:/kong/declarative'
     ports:
