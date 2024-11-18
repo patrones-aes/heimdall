@@ -13,6 +13,7 @@ services:
   heimdall-dynamodb:
     container_name: heimdall-dynamodb
     image: "amazon/dynamodb-local:latest"
+    restart: unless-stopped
     volumes:
       - "heimdall-dynamodb-data:/home/dynamodblocal/data"
     networks:
@@ -20,36 +21,31 @@ services:
   api-gateway:
     container_name: api-gateway
     image: kong:3.8-ubuntu
+    restart: unless-stopped
     volumes:
       - './infra/kong:/opt/kong'
     ports:
       - '8000:8000'
-      - '8443:8443'
       - '8001:8001'
-      - '8444:8444'
     environment:
       KONG_DATABASE: off
       KONG_DECLARATIVE_CONFIG: /opt/kong/kong.yml
-      KONG_PROXY_ACCESS_LOG: /dev/stdout
-      KONG_ADMIN_PROXY_ACCESS_LOG: /dev/stdout
-      KONG_PROXY_ERROR_LOG: /dev/stderr
-      KONG_ADMIN_ERROR_LOG: /dev/stderr
-      KONG_ADMIN_LISTEN: 0.0.0.0:8001,0.0.0.0:8445
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001
     command: kong start
     networks:
       - heimdall-network
     healthcheck:
-      test: [ "CMD", "kong", "health" ]
+      test: ["CMD", "kong", "healt"]
       interval: 10s
       timeout: 10s
       retries: 10
-
   # ---
   # Squads
   # ---
   squads-service:
     container_name: squads-service
     image: 10.43.102.250:3000/heimdall/squads-service:latest
+    restart: unless-stopped
     environment:
       DYNAMODB_HOST: ${DYNAMODB_HOST}
       DYNAMODB_PORT: ${DYNAMODB_PORT}
