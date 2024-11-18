@@ -4,7 +4,7 @@ _transform: true
 services:
   - name: squads
     host: squads-service
-    port: ${SQUAD_APP_PORT}
+    port: 8080
     protocol: http
     routes:
       - name: get_all_squads
