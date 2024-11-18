@@ -18,8 +18,8 @@ classifiers = [
     "Operating System :: OS Independent"
 ]
 dependencies = [
-    "boto3",
-    "pydantic_settings"
+    "boto3>=1.35.59",
+    "pydantic_settings>=2.1.1"
 ]
 
 [tool.setuptools]
