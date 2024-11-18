@@ -1,15 +1,15 @@
 ARG PYTHON_VERSION=3.13-alpine3.19
 FROM python:${PYTHON_VERSION}
 
-WORKDIR /usr/squads
+WORKDIR /usr/squad
 
 # Install dependencies
 COPY squad/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Get source code
-COPY squad/src/ ./src
-COPY squad/scripts/ ./scripts
+COPY packages/squad/src/ ./src
+COPY packages/squad/scripts/ ./scripts
 
 # Update permissions
 RUN chmod -R +x ./scripts
