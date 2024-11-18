@@ -4,7 +4,7 @@ FROM python:${PYTHON_VERSION}
 WORKDIR /usr/squad
 
 # Install dependencies
-COPY squad/requirements.txt ./
+COPY packages/squad/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Get source code
