@@ -1,7 +1,7 @@
 from typing import Type, Generic, TypeVar, Dict, Any, Optional
 
-from shared.core.database.connection import DatabaseConnection
-from shared.core.base_model import BaseModel
+from modi.core.database.connection import DatabaseConnection
+from modi.core.base_model import BaseModel
 
 ModelType = TypeVar('ModelType', bound=BaseModel)
 

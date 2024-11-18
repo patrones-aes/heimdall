@@ -2,8 +2,8 @@ from typing import Dict, Any, Type
 
 import boto3
 from botocore.exceptions import ClientError
-from shared.config.settings import settings
-from shared.core.base_model import BaseModel
+from modi.config.settings import settings
+from modi.core.base_model import BaseModel
 
 
 class DatabaseConnection:

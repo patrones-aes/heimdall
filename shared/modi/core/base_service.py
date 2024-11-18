@@ -1,4 +1,4 @@
-from shared.core.database.connection import DatabaseConnection
+from modi.core.database.connection import DatabaseConnection
 
 class BaseService:
     """
