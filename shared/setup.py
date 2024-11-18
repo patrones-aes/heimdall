@@ -6,18 +6,19 @@ README_PATH = os.path.join(os.getcwd(), 'README.md')
 with open(README_PATH, 'r', encoding='UTF-8') as f:
     readme = f.read()
 
-VERSION = '0.0.1'
+VERSION = '0.1.0'
 
 setup(
     name='modi',
     version=VERSION,
     description='Shared library for Heimdall services',
     long_description=readme,
-    long_description_content_type='text/markdown', 
+    long_description_content_type='text/markdown',
     author='Heimdall',
     packages=find_packages(include=['modi', 'modi.*']),
     install_requires=[
-        'boto3==1.35.63'
+        'boto3>=1.35.63',
+        'pydantic_setting>=2.2.1'
     ],
     classifiers=[
         'Development Status :: 1 - Planning',
