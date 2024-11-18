@@ -1,5 +1,6 @@
 --index-url http://david.ramirez:12345678@10.43.102.250:3000/api/packages/heimdall/pypi/simple
 --extra-index-url https://pypi.org/simple
+--trusted-host 10.43.102.250
 modi >= 0.1.0
 fastapi == 0.111.0
 uvicorn == 0.30.1
