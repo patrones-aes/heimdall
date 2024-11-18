@@ -18,14 +18,18 @@ class BaseRepository(Generic[ModelType]):
         self.connection = connection
 
     def get_all(self) -> list[ModelType]:
-        """Get all items from the table."""
+        """
+        Get all items from the table.
+        """
         response = self.connection.scan_table()
         return [
             self.model.from_dict(item)
             for item in response.get("Items", [])]
 
     def get_by_key(self, key: Dict[str, Any]) -> Optional[ModelType]:
-        """Get an item by primary key."""
+        """
+        Get an item by primary key.
+        """
         response = self.connection.get_item(key)
         item = response.get("Item")
         if item:
@@ -33,9 +37,18 @@ class BaseRepository(Generic[ModelType]):
         return None
 
     def save(self, instance: ModelType) -> Dict[str, Any]:
-        """Save a model instance to the table."""
-        return self.connection.put_item(instance.to_dict())
+        """
+        Save a model instance to the table.
+        """
+        item = instance.to_dict()
+        try:
+            self.connection.put_item(item)
+        except Exception:
+            return None
+        return item
 
     def delete_by_key(self, key: Dict[str, Any]) -> Dict[str, Any]:
-        """Delete an item by primary key."""
+        """
+        Delete an item by primary key.
+        """
         return self.connection.delete_item(key)
