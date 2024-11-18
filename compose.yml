@@ -1,29 +1,50 @@
 volumes:
-  dynamodb-data:
+  heimdall-dynamodb-data:
+    driver: local
 
 networks:
   heimdall-network:
+    external: false
 
 services:
   # ---
   # Shared
   # ---
-  dynamodb:
-    container_name: dynamodb
+  heimdall-dynamodb:
+    container_name: heimdall-dynamodb
     image: "amazon/dynamodb-local:latest"
     volumes:
-      - "dynamodb-data:/home/dynamodblocal/data"
+      - "heimdall-dynamodb-data:/home/dynamodblocal/data"
+    ports:
+     - '8000:8000'
     networks:
       - heimdall-network
+  api-gateway:
+    container_name: api-gateway
+    image: kong/kong-gateway:2.8-alpine
+    volumes:
+      - 'infra/kong/:/kong/declarative'
+    ports:
+      - '8000:8000'
+      - '8002:8002'
+    environment:
+      KONG_DATABASE: off
+      KONG_DECLARATIVE_CONFIG: /kong/declarative/kong.yml
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001
+      KONG_ADMIN_GUI_URL: http://localhost:8002
+    networks:
+      - heimdall-network
+
   # ---
   # Squads
   # ---
   squads-service:
     container_name: squads-service
-    image: archi/squads-service:latest
-    build: 
-      dockerfile: packages/squad/Containerfile
-      context: .
+    image: 10.43.102.250:3000/heimdall/squads-service:latest
     ports:
       - '${SQUAD_APP_PORT}:${SQUAD_APP_PORT}'
     environment:
@@ -35,6 +56,6 @@ services:
       APP_HOST: ${SQUAD_APP_HOST}
       APP_PORT: ${SQUAD_APP_PORT}
     depends_on:
-      - dynamodb
+      - heimdall-dynamodb
     networks:
       - heimdall-network
