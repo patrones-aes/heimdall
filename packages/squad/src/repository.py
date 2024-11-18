@@ -1,5 +1,6 @@
+from modi.core.base_repository import BaseRepository
+
 from model import Squad
-from shared.core.base_repository import BaseRepository
 
 class SquadRepository(BaseRepository[Squad]):
     """

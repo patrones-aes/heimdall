@@ -1,15 +1,18 @@
-from fastapi import APIRouter, Body
+from fastapi import APIRouter, Body, Depends
 from fastapi_router_controller import Controller
-from shared.core.database.connection import DatabaseConnection
+from modi.core.database.connection import DatabaseConnection
+from modi.deps import get_database
 
-from src.service import SquadService
+from service import SquadService
+from model import Squad
 
 router = APIRouter(prefix='/squads', tags=['Squads'])
 controller = Controller(router)
 
 @controller.resource()
 class SquadController:
-    def __init__(self, database: DatabaseConnection):
+    def __init__(self,
+                 database: DatabaseConnection = Depends(get_database(Squad))) -> None:
         self.service = SquadService(database)
 
     @controller.route.get('/')
