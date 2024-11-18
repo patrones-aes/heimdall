@@ -1,0 +1,13 @@
+_format_version: "3.0"
+_transform: true
+
+services:
+- host: squads-service
+  name: squads
+  port: 8000
+  protocol: http
+  routes:
+  - name: get_all_squads
+    paths:
+    - /squads
+    strip_path: true
