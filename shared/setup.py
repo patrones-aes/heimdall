@@ -18,7 +18,7 @@ setup(
     packages=find_packages(include=['modi', 'modi.*']),
     install_requires=[
         'boto3>=1.35.63',
-        'pydantic_setting>=2.2.1'
+        'pydantic_settings>=2.2.1'
     ],
     classifiers=[
         'Development Status :: 1 - Planning',
