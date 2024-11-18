@@ -9,19 +9,19 @@ with open(README_PATH, 'r', encoding='UTF-8') as f:
 VERSION = '0.0.1'
 
 setup(
-    name='shared',
+    name='modi',
     version=VERSION,
     description='Shared library for Heimdall services',
     long_description=readme,
-    long_description_content_type='text/markdown',  # Explicit content type
+    long_description_content_type='text/markdown', 
     author='Heimdall',
-    packages=find_packages(include=['shared', 'shared.*']),  # Include all submodules
+    packages=find_packages(include=['modi', 'modi.*']),
     install_requires=[
         'boto3==1.35.63'
     ],
     classifiers=[
         'Development Status :: 1 - Planning',
-        'Programming Language :: Python :: 3.13',  # Correct Python version
+        'Programming Language :: Python :: 3.13',
         'Intended Audience :: Developers',
         'Operating System :: Unix'
     ]
