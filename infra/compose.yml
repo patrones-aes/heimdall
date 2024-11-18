@@ -15,8 +15,6 @@ services:
     image: "amazon/dynamodb-local:latest"
     volumes:
       - "heimdall-dynamodb-data:/home/dynamodblocal/data"
-    ports:
-     - '8000:8000'
     networks:
       - heimdall-network
   api-gateway:
@@ -45,8 +43,6 @@ services:
   squads-service:
     container_name: squads-service
     image: 10.43.102.250:3000/heimdall/squads-service:latest
-    ports:
-      - '${SQUAD_APP_PORT}:${SQUAD_APP_PORT}'
     environment:
       DATABASE_HOST: ${SQUAD_DATABASE_HOST}
       DATABASE_PORT: ${SQUAD_DATABASE_PORT}
