@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 from pynamodb.models import Model
-from pynamodb.attributes import UTCDateTimeAttribute
+from pynamodb.attributes import UTCDateTimeAttribute, UnicodeAttribute
 from modi.config.settings import settings
 
 class BaseModel(Model):
@@ -22,4 +22,9 @@ class BaseModel(Model):
         attr_name = 'updated_at',
         default_for_new=lambda: datetime.now(timezone.utc),
         null=False
+    )
+    status = UnicodeAttribute(
+        attr_name='status',
+        null=False,
+        default_for_new='NEW'
     )
