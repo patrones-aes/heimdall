@@ -30,12 +30,12 @@ class BaseRepository(Generic[ModelType]):
         """
         return list(self.model.scan())
 
-    def get_by_key(self, key: Dict[str, Any]) -> Optional[ModelType]:
+    def get_by_hash_key(self, hash_key: Any) -> Optional[ModelType]:
         """
         Get an item by primary key.
         """
         try:
-            return self.model.get(**key)
+            return self.model.get(hash_key)
         except self.model.DoesNotExist:
             return None
 
@@ -50,7 +50,7 @@ class BaseRepository(Generic[ModelType]):
         """
         Delete an item by primary key.
         """
-        item = self.get_by_key(key)
+        item = self.get_by_hash_key(key)
         if item:
             item.delete()
 
