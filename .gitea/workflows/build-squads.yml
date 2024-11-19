@@ -53,8 +53,5 @@ jobs:
           context: ./services/squads
           file: ./services/squads/Containerfile
           push: true
-          platforms:
-            - linux/amd64
-            - linux/arm64
-          tags:
-            - 10.43.102.250:3000/heimdall/squads-service:latest
+          platforms: linux/amd64,linux/arm64
+          tags: 10.43.102.250:3000/heimdall/squads-service:latest
