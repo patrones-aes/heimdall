@@ -10,18 +10,22 @@ services:
   # ---
   # Shared
   # ---
-  heimdall-dynamodb:
-    container_name: heimdall-dynamodb
-    image: "amazon/dynamodb-local:latest"
+  dynamodb:
+    container_name: dynamodb
+    image: 'amazon/dynamodb-local:latest'
     restart: unless-stopped
+    labels:
+      - 'com.centurylinklabs.watchtower.enable=false'
     volumes:
-      - "heimdall-dynamodb-data:/home/dynamodblocal/data"
+      - 'heimdall-dynamodb-data:/home/dynamodblocal/data'
     networks:
       - heimdall-network
   api-gateway:
     container_name: api-gateway
     image: kong:3.8-ubuntu
     restart: unless-stopped
+    labels:
+      - 'com.centurylinklabs.watchtower.enable=false'
     volumes:
       - './infra/kong:/opt/kong'
     ports:
@@ -35,10 +39,21 @@ services:
     networks:
       - heimdall-network
     healthcheck:
-      test: ["CMD", "kong", "healt"]
+      test: ['CMD', 'kong', 'healt']
       interval: 10s
       timeout: 10s
       retries: 10
+  watchtower:
+    container_name: watchtower
+    image: containrrr/watchtower
+    restart: unless-stopped
+    labels:
+      - 'com.centurylinklabs.watchtower.enable=false'
+    volumes:
+      - './infra/watchtower/:/config/'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+      - '/etc/localtime:/etc/localtime:ro'
+    command: --interval 30
   # ---
   # Squads
   # ---
@@ -56,6 +71,6 @@ services:
       APP_HOST: ${SQUAD_APP_HOST}
       APP_PORT: ${SQUAD_APP_PORT}
     depends_on:
-      - heimdall-dynamodb
+      - dynamodb
     networks:
       - heimdall-network
