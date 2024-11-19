@@ -5,19 +5,19 @@ on:
     branches:
       - 'develop'
     paths:
-      - 'services/squad/**'
+      - 'services/squads/**'
   pull_request:
     branches:
       - 'develop'
     paths:
-      - 'services/squad/**' 
+      - 'services/squads/**' 
 
 jobs:
   build:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./services/squad
+        working-directory: ./services/squads
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./services/squad
+        working-directory: ./services/squads
     needs: build
     steps:
       - name: Checkout code
@@ -50,7 +50,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./services/squad
-          file: ./services/squad/Containerfile
+          context: ./services/squads
+          file: ./services/squads/Containerfile
           push: true
+          platforms: linux/amd64,linux/arm64
           tags: 10.43.102.250:3000/heimdall/squads-service:latest
