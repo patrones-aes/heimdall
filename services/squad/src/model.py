@@ -1,7 +1,7 @@
 import uuid
 
 from modi.core.base_model import BaseModel
-from pynamodb.attributes import UnicodeAttribute
+from pynamodb.attributes import UnicodeAttribute, NumberAttribute
 
 class Squad(BaseModel):
     """
@@ -11,8 +11,8 @@ class Squad(BaseModel):
         table_name = 'squads'
 
     id = UnicodeAttribute(
-        attr_name='id',
         hash_key=True,
+        attr_name='id',
         default_for_new=str(uuid.uuid4())
     )
     name = UnicodeAttribute(
@@ -21,5 +21,9 @@ class Squad(BaseModel):
     )
     details = UnicodeAttribute(
         attr_name='details',
+        null=False
+    )
+    price = NumberAttribute(
+        attr_name='price',
         null=False
     )

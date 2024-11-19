@@ -16,6 +16,10 @@ class SquadController:
     async def get_all_squads(self) -> List[Dict[str, Any]]:
         return self.service.get_all_squads()
 
+    @controller.route.get('/{hash_key}')
+    async def get_squad_by_id(self, hash_key: str) -> Dict[str, Any]:
+        return self.service.get_squad_by_id(hash_key)
+
     @controller.route.post('/')
-    async def create_squads(self, body = Body()):
+    async def create_squads(self, body = Body()) -> Dict[str, Any]:
         return self.service.create_squad(body)
