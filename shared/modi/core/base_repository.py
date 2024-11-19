@@ -11,6 +11,18 @@ class BaseRepository(Generic[ModelType]):
 
     def __init__(self, model: Type[ModelType]) -> None:
         self.model = model
+        self.__create_table()
+
+
+    def __create_table(self):
+        """
+        Create table if not exists
+        """
+        if not self.model.exists():
+            self.model.create_table(
+                read_capacity_units=1,
+                write_capacity_units=1,
+                wait=True)
 
     def get_all(self) -> list[ModelType]:
         """
