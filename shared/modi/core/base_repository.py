@@ -28,7 +28,7 @@ class BaseRepository(Generic[ModelType]):
         """
         Get all items from the table.
         """
-        return list(self.model.scan())
+        return self.model.scan()
 
     def get_by_key(self, key: Dict[str, Any]) -> Optional[ModelType]:
         """
