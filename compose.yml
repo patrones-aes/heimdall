@@ -12,7 +12,7 @@ services:
   # ---
   dynamodb:
     container_name: dynamodb
-    image: 'amazon/dynamodb-local:latest'
+    image: amazon/dynamodb-local:2.5.3
     restart: unless-stopped
     labels:
       - 'com.centurylinklabs.watchtower.enable=false'
@@ -22,7 +22,7 @@ services:
       - heimdall-network
   api-gateway:
     container_name: api-gateway
-    image: kong:3.8-ubuntu
+    image: kong:3.8.0
     restart: unless-stopped
     labels:
       - 'com.centurylinklabs.watchtower.enable=false'
@@ -45,15 +45,18 @@ services:
       retries: 10
   watchtower:
     container_name: watchtower
-    image: containrrr/watchtower
+    image: containrrr/watchtower:1.7.1
     restart: unless-stopped
     labels:
       - 'com.centurylinklabs.watchtower.enable=false'
     volumes:
-      - './infra/watchtower/:/config/'
+      - './infra/watchtower/config.json:/config.json'
       - '/var/run/docker.sock:/var/run/docker.sock'
       - '/etc/localtime:/etc/localtime:ro'
-    command: --interval 30
+    environment:
+      WATCHTOWER_CLEANUP: true
+      WATCHTOWER_POLL_INTERVAL: 30
+      WATCHTOWER_DEBUG: true
   # ---
   # Squads
   # ---
