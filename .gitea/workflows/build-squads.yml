@@ -39,6 +39,8 @@ jobs:
             [registry."10.43.102.250:3000"]
               http = true
               insecure = true
+          env:
+            BUILDX_NO_DEFAULT_ATTESTATIONS: 1
 
       - name: Login into registry
         uses: docker/login-action@v3
