@@ -22,6 +22,20 @@ class DatabaseConnection:
         self.table = self.connection.Table(model.table_name)
         self._ensure_table()
 
+    def _ensure_table(self):
+        """
+        Ensure the table exists; create it if it doesn't.
+        """
+        try:
+            self.table.load()  # Check if the table exists
+            print(f"Table '{self.model.table_name}' already exists.")
+        except ClientError as e:
+            if e.response['Error']['Code'] == 'ResourceNotFoundException':
+                print(f"Table '{self.model.table_name}' does not exist. Creating it...")
+                self._create_table()
+            else:
+                raise
+
     def _create_table(self):
         """
         Create the table using metadata from the model.
@@ -36,19 +50,6 @@ class DatabaseConnection:
             print(f"Failed to create table '{self.model.table_name}': {e.response['Error']['Message']}")
             raise
 
-    def _ensure_table(self):
-        """
-        Ensure the table exists; create it if it doesn't.
-        """
-        try:
-            self.table.load()  # Check if the table exists
-            print(f"Table '{self.model.table_name}' already exists.")
-        except ClientError as e:
-            if e.response['Error']['Code'] == 'ResourceNotFoundException':
-                print(f"Table '{self.model.table_name}' does not exist. Creating it...")
-                self._create_table()
-            else:
-                raise
 
     def __call__(self):
         return self
