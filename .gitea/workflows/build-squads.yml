@@ -45,7 +45,9 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: ./Containerfile
+          context: ./services/squad
+          file: ./services/squad/Containerfile
           push: true
-          tags: 10.43.102.250:3000/heimdall/squads-service:0.1.0,10.43.102.250:3000/heimdall/squads-service:latest
+          tags: |
+            10.43.102.250:3000/heimdall/squads-service:0.1.0
+            10.43.102.250:3000/heimdall/squads-service:latest
