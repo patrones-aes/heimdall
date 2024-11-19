@@ -6,7 +6,8 @@ WORKDIR /usr/squad
 # Install dependencies
 COPY ./requirements.txt ./
 RUN pip install \
-    --no-cache-dir --upgrade \
+    --no-cache-dir \
+    --upgrade \
     -r requirements.txt
 
 # Get source code
