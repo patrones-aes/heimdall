@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "modi"
-version = "0.2.6"
+version = "0.3.0"
 authors = [
     { name="David Ramirez", email="david.ramirez@archi.com" }
 ]
@@ -19,7 +19,8 @@ classifiers = [
 ]
 dependencies = [
     "pynamodb>=6.0.1",
-    "pydantic_settings>=2.1.1"
+    "pydantic_settings>=2.1.1",
+    "redis">=5.2.0
 ]
 
 [tool.setuptools]
