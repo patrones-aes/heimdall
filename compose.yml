@@ -1,6 +1,8 @@
 volumes:
   dynamodb-data:
     driver: local
+  redis-data:
+    driver: local
 
 networks:
   heimdall-network:
@@ -43,6 +45,16 @@ services:
       interval: 10s
       timeout: 10s
       retries: 10
+  redis-queue:
+    container_name: redis-queue
+    image: redis:7.4.1-alpine3.20
+    restart: unless-stopped
+    labels:
+      - 'com.centurylinklabs.watchtower.enable=false'
+    volumes:
+      - 'redis-data:/data'
+    networks:
+      - heimdall-network
   watchtower:
     container_name: watchtower
     image: containrrr/watchtower:1.7.1

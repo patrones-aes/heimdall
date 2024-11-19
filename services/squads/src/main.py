@@ -1,12 +1,14 @@
 import os
 import sys
 
+from threading import Thread
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 sys.path.append(os.path.join(os.getcwd(), './src'))
 from controller import SquadController
+from event_handler import start_events_listening
 
 load_dotenv(override=True)
 
@@ -25,3 +27,9 @@ app.add_middleware(
 
 # Routes
 app.include_router(SquadController.router())
+
+@app.on_event('startup')
+async def listen_events() -> None:
+    event_listener_thread = Thread(target=start_events_listening)
+    event_listener_thread.daemon = True
+    event_listener_thread.start()
