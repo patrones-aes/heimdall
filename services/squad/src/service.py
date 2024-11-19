@@ -1,15 +1,13 @@
-from modi.core.base_service import BaseService
-
 from repository import SquadRepository
 from model import Squad
 
-class SquadService(BaseService):
+class SquadService():
     def get_all_squads(self):
         # Edit if you have to add logic
-        repository = SquadRepository(Squad, self.connection)
-        return repository.get_all()
+        repository = SquadRepository(Squad)
+        return [item.attribute_values for item in repository.get_all()]
 
     def create_squad(self, body):
         # Edit if you have to add logic
-        repository = SquadRepository(Squad, self.connection)
-        return repository.save(Squad(**body))
+        repository = SquadRepository(Squad)
+        return repository.save(Squad(**body)).attribute_values

@@ -1,22 +1,19 @@
-from fastapi import APIRouter, Body, Depends
+from typing import List, Dict, Any
+from fastapi import APIRouter, Body
 from fastapi_router_controller import Controller
-from modi.core.database.connection import DatabaseConnection
-from modi.deps import get_database
 
 from service import SquadService
-from model import Squad
 
 router = APIRouter(prefix='/squads', tags=['Squads'])
 controller = Controller(router)
 
 @controller.resource()
 class SquadController:
-    def __init__(self,
-                 database: DatabaseConnection = Depends(get_database(Squad))) -> None:
-        self.service = SquadService(database)
+    def __init__(self) -> None:
+        self.service = SquadService()
 
     @controller.route.get('/')
-    async def get_all_squads(self):
+    async def get_all_squads(self) -> List[Dict[str, Any]]:
         return self.service.get_all_squads()
 
     @controller.route.post('/')

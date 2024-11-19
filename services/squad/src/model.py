@@ -1,10 +1,25 @@
+import uuid
+
 from modi.core.base_model import BaseModel
+from pynamodb.attributes import UnicodeAttribute
 
 class Squad(BaseModel):
     """
     Squad Model
     """
-    table_name = 'squads'
-    key_schema = [{"AttributeName": "id", "KeyType": "HASH"}]
-    attribute_definitions = [{"AttributeName": "id", "AttributeType": "S"}]
-    provisioned_throughput = {"ReadCapacityUnits": 5, "WriteCapacityUnits": 5}
+    class Meta(BaseModel.Meta):
+        table_name = 'squads'
+
+    id = UnicodeAttribute(
+        attr_name='id',
+        hash_key=True,
+        default_for_new=str(uuid.uuid4())
+    )
+    name = UnicodeAttribute(
+        attr_name='name',
+        null=False
+    )
+    details = UnicodeAttribute(
+        attr_name='details',
+        null=False
+    )
