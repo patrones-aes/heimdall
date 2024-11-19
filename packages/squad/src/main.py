@@ -23,9 +23,5 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-@app.get('/')
-def rootPath():
-    return {'message': 'Welcome to Bici Red API v1.0 - ready'}
-
 # Routes
 app.include_router(SquadController.router())
