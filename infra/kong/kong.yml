@@ -5,7 +5,7 @@ services:
   - name: squads
     url: http://squads-service:8080/squads
     routes:
-      - name: get_all_squads
+      - name: get_squads
         paths:
           - /squads
         methods:
@@ -13,5 +13,18 @@ services:
       - name: create_squad
         paths:
           - /squads
+        methods:
+          - POST
+  - name: subscriptions
+    url: http://subscriptions-service:8080/subscriptions
+    routes:
+      - name: get_subscriptions
+        paths:
+          - /subscriptions
+        methods:
+          - GET
+      - name: create_subscription
+        paths:
+          - /subscriptions
         methods:
           - POST

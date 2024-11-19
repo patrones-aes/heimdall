@@ -71,8 +71,28 @@ services:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}
-      APP_HOST: ${SQUAD_APP_HOST}
-      APP_PORT: ${SQUAD_APP_PORT}
+      APP_HOST: ${SQUADS_APP_HOST}
+      APP_PORT: ${SQUADS_APP_PORT}
+    depends_on:
+      - dynamodb
+    networks:
+      - heimdall-network
+  # ---
+  # Subscriptions
+  # ---
+  subscriptions-service:
+    container_name: subscriptions-service
+    image: 10.43.102.250:3000/heimdall/subscriptions-service:latest
+    restart: unless-stopped
+    environment:
+      DYNAMODB_HOST: ${DYNAMODB_HOST}
+      DYNAMODB_PORT: ${DYNAMODB_PORT}
+      DYNAMODB_URL: ${DYNAMODB_URL}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}
+      APP_HOST: ${SUBSCRIPTIONS_APP_HOST}
+      APP_PORT: ${SUBSCRIPTIONS_APP_PORT}
     depends_on:
       - dynamodb
     networks:

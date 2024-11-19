@@ -1,0 +1,21 @@
+ARG PYTHON_VERSION=3.13-alpine3.19
+FROM python:${PYTHON_VERSION}
+
+WORKDIR /usr/subscription
+
+# Install dependencies
+COPY ./requirements.txt ./
+RUN pip install \
+    --no-cache-dir \
+    -r requirements.txt
+
+# Get source code
+COPY ./src/ ./src
+COPY ./scripts/ ./scripts
+
+# Update permissions
+RUN chmod -R +x ./scripts
+
+EXPOSE ${APP_PORT}
+
+CMD [ "./scripts/start.sh" ]
