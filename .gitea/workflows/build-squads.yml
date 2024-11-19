@@ -5,27 +5,33 @@ on:
     branches:
       - 'develop'
     paths:
-      - 'packages/squad/**'
+      - 'services/squad/**'
   pull_request:
     branches:
       - 'develop'
     paths:
-      - 'packages/squad/**' 
+      - 'services/squad/**' 
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./shared
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
   publish:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./services/squad
     needs: build
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Set up Docker BuildX
         uses: docker/setup-buildx-action@v3
         with:
@@ -41,11 +47,10 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./packages/squad/Containerfile
+          file: ./Containerfile
           push: true
           tags: 10.43.102.250:3000/heimdall/squads-service:0.1.0,10.43.102.250:3000/heimdall/squads-service:latest
