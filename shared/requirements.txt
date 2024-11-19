@@ -1,2 +1,2 @@
-boto3 >= 1.35.59
+pynamodb >= 6.0.1
 pydantic-settings >= 2.2.1

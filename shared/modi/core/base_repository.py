@@ -1,6 +1,5 @@
-from typing import Type, Generic, TypeVar, Dict, Any, Optional
+from typing import Type, Generic, TypeVar, Dict, Any, Optional, List
 
-from modi.core.database.connection import DatabaseConnection
 from modi.core.base_model import BaseModel
 
 ModelType = TypeVar('ModelType', bound=BaseModel)
@@ -9,46 +8,42 @@ class BaseRepository(Generic[ModelType]):
     """
     Base Repository
     """
-    connection: DatabaseConnection
 
-    def __init__(self,
-                 model: Type[ModelType],
-                 connection: DatabaseConnection) -> None:
+    def __init__(self, model: Type[ModelType]) -> None:
         self.model = model
-        self.connection = connection
 
     def get_all(self) -> list[ModelType]:
         """
         Get all items from the table.
         """
-        response = self.connection.scan_table()
-        return [
-            self.model.from_dict(item)
-            for item in response.get("Items", [])]
+        return list(self.model.scan())
 
     def get_by_key(self, key: Dict[str, Any]) -> Optional[ModelType]:
         """
         Get an item by primary key.
         """
-        response = self.connection.get_item(key)
-        item = response.get("Item")
-        if item:
-            return self.model.from_dict(item)
-        return None
+        try:
+            return self.model.get(**key)
+        except self.model.DoesNotExist:
+            return None
 
-    def save(self, instance: ModelType) -> Dict[str, Any]:
+    def save(self, instance: ModelType) -> ModelType:
         """
         Save a model instance to the table.
         """
-        item = instance.to_dict()
-        try:
-            self.connection.put_item(item)
-        except Exception:
-            return None
-        return item
+        instance.save()
+        return instance
 
-    def delete_by_key(self, key: Dict[str, Any]) -> Dict[str, Any]:
+    def delete_by_key(self, key: Dict[str, Any]) -> None:
         """
         Delete an item by primary key.
         """
-        return self.connection.delete_item(key)
+        item = self.get_by_key(key)
+        if item:
+            item.delete()
+
+    def query(self, key: str, value: Any) -> List[ModelType]:
+        """
+        Query the table by a key and value.
+        """
+        return list(self.model.query(value, key_condition=key))
