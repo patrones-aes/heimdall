@@ -1,5 +1,5 @@
 volumes:
-  heimdall-dynamodb-data:
+  dynamodb-data:
     driver: local
 
 networks:
@@ -17,7 +17,7 @@ services:
     labels:
       - 'com.centurylinklabs.watchtower.enable=false'
     volumes:
-      - 'heimdall-dynamodb-data:/home/dynamodblocal/data'
+      - 'dynamodb-data:/home/dynamodblocal/data'
     networks:
       - heimdall-network
   api-gateway:
