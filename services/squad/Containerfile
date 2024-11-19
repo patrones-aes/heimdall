@@ -4,12 +4,14 @@ FROM python:${PYTHON_VERSION}
 WORKDIR /usr/squad
 
 # Install dependencies
-COPY packages/squad/requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+COPY ./requirements.txt ./
+RUN pip install \
+    --no-cache-dir --upgrade \
+    -r requirements.txt
 
 # Get source code
-COPY packages/squad/src/ ./src
-COPY packages/squad/scripts/ ./scripts
+COPY ./src/ ./src
+COPY ./scripts/ ./scripts
 
 # Update permissions
 RUN chmod -R +x ./scripts
